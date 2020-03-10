@@ -6,7 +6,7 @@ k = 30
 
 
 ### 알고리즘 잘못 이해
-def solution(stock, dates, supplies, k):
+def solution1(stock, dates, supplies, k):
     answer = 0
     for i in range(len(dates)):
         if i == len(dates) - 1:
@@ -25,6 +25,28 @@ def solution(stock, dates, supplies, k):
             stock -= (dates[i] - dates[i - 1])
         # print(stock, '\n')
     
+    return answer
+
+print(solution1(stock, dates, supplies, k))
+
+
+
+### 틀림
+def solution(stock, dates, supplies, k):
+    import heapq
+    stock = -stock
+    k = -k
+    answer = 0
+    supplies = list(map(lambda x: x * -1, supplies))
+    heapq.heapify(supplies)
+    # print('\n\n', stock)
+    for i in range(len(supplies)):
+        answer += 1
+        m = heapq.heappop(supplies)
+        stock += m
+        # print(stock)
+        if stock < k:
+            break
     return answer
 
 print(solution(stock, dates, supplies, k))
