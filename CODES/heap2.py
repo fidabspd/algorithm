@@ -50,3 +50,49 @@ def solution(stock, dates, supplies, k):
     return answer
 
 print(solution(stock, dates, supplies, k))
+
+
+
+stock = 4
+dates = [4,10,15]
+supplies = [20,5,10]
+k = 30
+
+stock = 4
+dates = [4,10,15]
+supplies = [20,5,1]
+k = 30
+
+
+### 분기점은 맞음
+answer = 0
+print('\n\n', stock)
+if stock < dates[1]:
+    stock += supplies[0]
+    answer += 1
+else:
+    if stock + supplies[1] < dates[2]:
+        stock += supplies[0]
+        answer += 1
+    else:
+        if supplies + supplies[1] + supplies[2] < k:
+            stock += supplies[0]
+            answer += 1
+        else:
+            pass
+print(stock)
+if stock < dates[2]:
+    stock += supplies[1]
+    answer += 1
+else:
+    if stock + supplies[2] < k:
+        stock += supplies[1]
+        answer += 1
+    else:
+        pass
+print(stock)
+if stock < k:
+    stock += supplies[2]
+    answer += 1
+print(stock)
+print(answer)
