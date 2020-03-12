@@ -98,53 +98,96 @@ if stock < k:
 
 
 
+stock = 4
+dates = [4,10,15]
+supplies = [20,5,10]
+k = 30
 
-import heapq
-answer = 0
-can = []
-heapq.heapify(can)
-for i in range(len(dates)):
-    if len(dates) > 0 and stock <= dates[0]:
-        dates.pop(0)
-        can.append(supplies.pop(0))
-        print('!', can)
-        stock += can.pop(0)
-        print('!', can)
+### 정확성 11번 런타임에러, 효율성 1번 시간초과
+def solution3(stock, dates, supplies, k):
+    import heapq
+    can = []
+    heapq.heapify(can)
+    answer = 0
+    while stock < k:
+        # print(stock, len(dates), dates, supplies, can)
+        if len(dates) >= 2:
+            if stock < dates[1]:
+                dates.pop(0)
+                heapq.heappush(can, -supplies.pop(0))
+                stock -= heapq.heappop(can)
+                answer += 1
+            else:
+                dates.pop(0)
+                heapq.heappush(can, -supplies.pop(0))
+        else:
+            if stock < k:
+                dates.pop(0)
+                heapq.heappush(can, -supplies.pop(0))
+                stock -= heapq.heappop(can)
+                answer += 1
+            else:
+                dates.pop(0)
+                heapq.heappush(can, -supplies.pop(0))
+
+    return answer
+
+
+# print(solution3(stock, dates, supplies, k))
+
+
+
+
+
+stock = 4
+dates = [4,10,15]
+supplies = [20,5,10]
+k = 30
+
+### 효율성 1번 시간초과
+def solution4(stock, dates, supplies, k):
+    import heapq
+    can = []
+    answer = 0
+    while stock < k:
+        print(stock, len(dates), dates, supplies, can)
+        while len(dates) > 0 and stock >= dates[0]:
+            dates.pop(0)
+            heapq.heappush(can, -supplies.pop(0))
+        stock -= heapq.heappop(can)
         answer += 1
-    else:
-        dates.pop(0)
-        can.append(supplies.pop(0))
-    print(dates, supplies, stock)
-    if stock > k:
-        break
+        
+    return answer
 
-
-print(answer)
+# print(solution4(stock, dates, supplies, k))
 
 
 
-# stock = 4
-# dates = [4,10,15]
-# supplies = [20,5,10]
-# k = 30
+
+stock = 4
+dates = [4,10,15]
+supplies = [20,5,10]
+k = 30
+
+### 통과
+def solution(stock, dates, supplies, k):
+    import heapq
+    can = []
+    answer = 0
+    supplies = list(reversed(supplies))
+    while stock < k:
+        print(stock, len(dates), dates, supplies, can)
+        while len(dates) > 0 and stock >= dates[0]:
+            dates.pop(0)
+            heapq.heappush(can, -supplies.pop())
+        stock -= heapq.heappop(can)
+        answer += 1
+        
+    return answer
+
+print(solution(stock, dates, supplies, k))
 
 
-# def solution(stock, dates, supplies, k):
-#     import heapq
-
-#     answer = 0
-#     heap = []
-
-#     while stock < k:
-#         while len(dates) > 0 and dates[0] <= stock:  # dates 길이만큼 돌되, stock이 다음 공급일까지 버틸수 있을때
-#             dates.pop(0)
-#             heapq.heappush(heap, -supplies.pop(0))  # 바로다음다음 공급일까지 못버티면 바로다음 공급일에 무조건 공급을 받게 되어있음
-#             # print(heap)
-
-#         stock -= heapq.heappop(heap)
-#         answer += 1
-
-#     return answer
-
-
-# print(solution(stock, dates, supplies, k))
+### 참고
+#   pop(0)를 해서 제일 앞에 있는 요소를 빼게 되면 [][1:]을 다시 재배열 하느라 시간이 오래걸린다고 한다
+#   따라서 reversed를 해주고 제일 뒤에서 list를 빼오는 형식으로 바꾸고 통과했다.
