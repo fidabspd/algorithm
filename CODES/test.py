@@ -1,2 +1,4 @@
-a = [1,2,3,4,5]
-print(list(reversed(a)))
+jobs = [[10, 3], [1, 9], [2, 6]]
+import heapq as hq
+print(hq.heapify(jobs))
+print(jobs)
