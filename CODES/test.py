@@ -1,4 +1,6 @@
-jobs = [[10, 3], [1, 9], [2, 6]]
 import heapq as hq
-print(hq.heapify(jobs))
-print(jobs)
+
+a = [[1, 10],2,3,4,5]
+
+print(hq.heappop(a) * len(a))
+print(a)
