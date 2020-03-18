@@ -38,13 +38,14 @@ def solution(operations):
 
 
 
-
+### 통과
 def solution(operations):
     import heapq as hq
-    li = []; tmp = []
+    li = []
     cnt_i = 0; cnt_d = 0
 
     for op in operations:
+        tmp = []
         if op[0] == 'I':
             hq.heappush(li, int(op[2:]))
             cnt_i += 1
@@ -63,7 +64,7 @@ def solution(operations):
                     cnt_d += 1
                 except:
                     pass
-        print(li, cnt_i, cnt_d)
+        #print(li, cnt_i, cnt_d)
 
     if cnt_i > cnt_d:
         return([max(li), hq.heappop(li)])
@@ -71,6 +72,6 @@ def solution(operations):
         return([0, 0])
     
 
-#print(solution(operations))
-#print(solution(operations1))
+print(solution(operations))
+print(solution(operations1))
 print(solution(["I 4", "I 3", "I 2", "I 1", "D 1", "D 1", "D -1", "D -1", "I 5", "I 6"]))
