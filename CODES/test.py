@@ -1,6 +1,3 @@
-import heapq as hq
-
-a = [[1, 10],2,3,4,5]
-
-print(hq.heappop(a) * len(a))
+a = [1,2,3,4]
+a.append(['123', '123'])
 print(a)
