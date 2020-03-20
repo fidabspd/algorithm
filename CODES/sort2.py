@@ -24,10 +24,16 @@ def solution1(numbers):
 
 
 ### 알고리즘 틀림
+def solution2(numbers):
+    from functools import reduce
+    return reduce(lambda x, y : str(x) + str(y), sorted(numbers, key = lambda x: str(x) + str(x)[0] * (len(str(max(numbers))) - len(str(x))), reverse = True))
+
+
+
+### 통과
 def solution(numbers):
     from functools import reduce
-    numbers.sort(reverse = True)
-    return reduce(lambda x, y : str(x) + str(y), sorted(numbers, key = lambda x: str(x) + str(x)[0] * (len(str(max(numbers))) - len(str(x))), reverse = True))
+    return str(int(reduce(lambda x, y : str(x) + str(y), sorted(numbers, key = lambda x: (str(x) * 4)[0:4], reverse = True))))
 
 print(solution(numbers))
 print(solution([0,0,0,0]))
