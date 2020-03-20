@@ -6,5 +6,4 @@ a = [313, 31]
 a = [str(i) for i in a]
 print(a)
 
-b = '1234'
-print(b[-5])
+
