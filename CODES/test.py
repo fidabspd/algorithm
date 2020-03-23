@@ -1,9 +1,20 @@
-numbers1 = [6, 10, 2]  # return "6210"
-numbers = [3, 30, 34, 5, 9]  # return "9534330"
+param = {
+    'student_id': 10012,
+    'lssn_id': 1000005,
+}
 
-a = [1,2,3,4]
-a = [313, 31]
-a = [str(i) for i in a]
-print(a)
+result_param = {}
+result_format = {}
 
+for k, v in param.items():
+    print(k, v)
+    if isinstance(v, dict) or isinstance(v, list):
+        result_format[k] = v
+    else:
+        result_param[k] = v
 
+print(result_param, result_format
+
+query = query.format(**result_format))
+
+print(query)
