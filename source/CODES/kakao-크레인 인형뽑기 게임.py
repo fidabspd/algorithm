@@ -8,7 +8,7 @@ moves = [1,5,3,5,1,2,1,4]
 
 def solution(board, moves):
     board_T = []
-    for id in range(5):
+    for id in range(len(board)):
         col = []
         for row in board:
             if row[id] != 0:
