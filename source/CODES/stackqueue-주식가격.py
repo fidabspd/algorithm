@@ -23,30 +23,40 @@ def solution(prices):
 
 
 
-from functools import reduce
+### 왜 시간초과인지 모르겠다
+prices = [1, 2, 3, 2, 3]  # [4, 3, 1, 1, 0]
 
-
-
-### 시간복잡도를 O(n)으로 바꿔야함
-tmp = []
-for i, j in zip(prices, prices[1:]):
-    tmp.append(j - i)
-
-print(tmp)
-   
+def solution(prices):
+    answer = []
     
+    for idx in range(len(prices)):
+        p = prices.pop(0)
+        tmp = 0
+        for f in prices:
+            tmp += 1
+            if p > f:
+                break
+        answer.append(tmp)
+        
+    return answer
 
-# time으로 잡아보자
-# updn -> 현 time기준 주가가 각 자리 값들 기준 몇의 차이를 가지는지
-# diff -> 바로 이전 주가와 현 주가 차이
-
-
-updn = [0]
-diff = 0
-for time in range(len(prices)):
-    updn.append(0)
-    # diff = 
+print(solution(prices))
 
 
 
-    tmp = prices[time]
+### 통과
+def solution(prices):
+    from collections import deque
+    answer = []
+    que = deque(prices)
+    
+    while que:
+        p = que.popleft()
+        tmp = 0
+        for f in que:
+            tmp += 1
+            if p > f:
+                break
+        answer.append(tmp)
+        
+    return answer
