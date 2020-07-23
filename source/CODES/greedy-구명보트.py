@@ -31,7 +31,7 @@ print(solution(people3, limit3))
 
 
 ### 다른 사람의 풀이
-def solution(people, limit) :
+def solution_else(people, limit) :
     answer = 0
     people.sort()
 
