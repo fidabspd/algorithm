@@ -78,7 +78,7 @@ def solution3(n, vertex):
         for v in vertex:
             for n in now:
                 if n in v:  # now가 vertex안에 들어있다면
-                    if v[v.index(n)-1] not in tmp and dists[(v[v.index(n)-1])-1] == 0 and v[v.index(n)-1] != 1:
+                    if dists[(v[v.index(n)-1])-1] == 0 and v[v.index(n)-1] != 1:  # 이미 체크한 노드와 1번 노드 제외
                         tmp.append(v[v.index(n)-1])  # 이어진 노드 tmp에 추가
 
             for t in tmp:
