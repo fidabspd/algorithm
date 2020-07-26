@@ -1,23 +1,60 @@
-# def solution(numbers):
-#     answer = 0
-#     return answer
+numbers1 = '17'  # 3
+numbers2 = '011'  # 2
 
-numbers = "17"  # return 3 (7, 17, 71)
-numbers1 = "011"  # return 2 (11, 101)
 
-not_ans = int('0' in numbers) + int('1' in numbers)
-print(not_ans)
+### 통과
+def solution(numbers):
+    from itertools import permutations
 
-gen = list(set([1, 10, 11, 110, 101]))  # 만들어낸 숫자들에서 중복 제거
-not_ans = gen.count(0) + gen.count(1)  # 숫자들 중 0, 1은 미리 not_ans에 추가
+    perm = []
+    for i in range(1, len(numbers)+1):
+        perm.extend(list(map(''.join, permutations(numbers, i))))
+    perm = set(map(int, perm))
+    print(perm)
+    
+    answer = 0
+    for p in perm:
 
-for num in gen:
-    print('!', num)
-    if num not in [0, 1, 2]:
-        for i in range(2, num):
-            if num % i == 0:
-                not_ans += 1
+        if p in [0, 1]:
+            continue
+
+        for i in range(2, int(p**0.5) + 1):
+            if p % i == 0:
                 break
+        else:
+            answer += 1
 
-answer = len(gen) - not_ans
-print(answer, not_ans)
+    return answer
+
+
+### 에라토스테네스의 체 사용
+def mklst(limit):
+    result = [False]*2 + [True]*(limit-1)
+    lst = []
+    
+    for num in range(limit+1):
+        if result[num] == True:
+            lst.append(num)
+            for no in range(num*2, limit+1, num):
+                result[no] = False
+                
+    return lst
+
+def solution1(numbers):
+    from itertools import permutations
+
+    answer = 0
+    perm = []
+    for i in range(1, len(numbers)+1):
+        perm.extend(list(map(''.join, permutations(numbers, i))))
+    perm = set(map(int, perm))
+    
+    lst = mklst(max(perm))
+    for p in perm:
+        if p in lst:
+            answer += 1
+
+    return answer
+
+print(solution(numbers1))
+print(solution(numbers2))
