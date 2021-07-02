@@ -7,8 +7,8 @@ def factorial_stop(start, count):
         result *= start
         start -= 1
         count -= 1
-        
     return result
+    
 def solution(n):
     answer = 0
     i = 0
