@@ -1,7 +1,8 @@
 board1 = [[0,1,1,1],[1,1,1,1],[1,1,1,1],[0,0,1,0]]  # 9
 board2 = [[0,0,1,1],[1,1,1,1]]  # 4
 
-def solution(board):
+
+def solution_0(board):
 
     answer = 0
 
@@ -22,6 +23,19 @@ def solution(board):
                     answer = tmp
 
     return answer
+
+
+import numpy as np
+def solution(board):
+    board = np.array(board)
+    size_max = min(board.shape)
+    for size in range(size_max, 0, -1):
+        for r in range(board.shape[0]-size+1):
+            for c in range(board.shape[1]-size+1):
+                if sum(board[r:r+size, c:c+size].reshape(-1)) == size**2:
+                    return size**2
+    return 0
+
 
 print(solution(board1))
 print(solution(board2))
