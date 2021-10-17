@@ -25,5 +25,30 @@ def solution(tickets):
     return min(answers_str)
 
 
+### DFS 풀이
+from collections import defaultdict
+def dfs(graph, N, key, footprint):
+    if len(footprint) == N + 1:
+        return footprint
+    for idx, country in enumerate(graph[key]):
+        graph[key].pop(idx)
+        tmp = footprint.copy()
+        tmp.append(country)
+        ret = dfs(graph, N, country, tmp)
+        graph[key].insert(idx, country)
+        if ret:
+            return ret
+
+def solution_else(tickets):
+    answer = []
+    graph = defaultdict(list)
+    N = len(tickets)
+    for ticket in tickets:
+        graph[ticket[0]].append(ticket[1])
+        graph[ticket[0]].sort()
+    answer = dfs(graph, N, "ICN", ["ICN"])
+    return answer
+
+
 print(solution(tickets1))
 print(solution(tickets2))
