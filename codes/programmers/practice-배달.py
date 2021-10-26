@@ -4,7 +4,9 @@ N2 = 6; road2 = [[1,2,1],[1,3,2],[2,3,2],[3,4,3],[3,5,2],[3,5,3],[5,6,1]]; K2 = 
 
 def solution(N, road, K):
     from collections import deque
-    dist = {i+1:-1 for i in range(N)}
+    import math
+    
+    dist = {i+1:math.inf for i in range(N)}
     dist[1] = 0
     graph = {i+1:[] for i in range(N)}
     for s, e, t in road:
@@ -16,7 +18,7 @@ def solution(N, road, K):
     queue = deque(graph[1])
     while queue:
         s, e, t = queue.popleft()
-        if dist[e] != -1:
+        if dist[e] < dist[s]+t:
             continue
         queue.extend(graph[e])
         dist[e] = dist[s]+t
