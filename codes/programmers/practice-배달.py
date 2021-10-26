@@ -5,15 +5,13 @@ N2 = 6; road2 = [[1,2,1],[1,3,2],[2,3,2],[3,4,3],[3,5,2],[3,5,3],[5,6,1]]; K2 = 
 def solution(N, road, K):
     from collections import deque
     import math
-    
+
     dist = {i+1:math.inf for i in range(N)}
     dist[1] = 0
     graph = {i+1:[] for i in range(N)}
     for s, e, t in road:
         graph[s].append((s, e, t))
         graph[e].append((e, s, t))
-    for i in range(N):
-        graph[i+1].sort()
     
     queue = deque(graph[1])
     while queue:
