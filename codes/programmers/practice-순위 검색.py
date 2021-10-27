@@ -1,3 +1,6 @@
+import bisect
+
+
 info = [
     "java backend junior pizza 150",\
     "python frontend senior chicken 210",\
@@ -17,7 +20,8 @@ query = [
 # [1,1,1,1,2,4]
 
 
-def solution(info, query):
+### 시간 초과
+def solution_0(info, query):
     answer = []
     info = list(map(lambda x: x.split(' '), info))
     query = list(map(lambda x: [i for i in x.split(' ') if i != 'and'], query))
@@ -39,6 +43,38 @@ def solution(info, query):
                     print(r)
             print('remain:', right)
         answer.append(len(right))
+    return answer
+
+
+### 정답
+from itertools import combinations
+from bisect import bisect_left
+def solution(info, query):
+
+    info_dict = {'':[]}
+    for i in info:
+        tmp = i.split(' ')
+        k, v = tmp[:-1], int(tmp[-1])
+        info_dict[''].append(v)
+        for c in range(1, 5):
+            for key in combinations(k, c):
+                key = ''.join(key)
+                if key in info_dict.keys():
+                    info_dict[key].append(v)
+                else:
+                    info_dict[key] = [v]
+    for k in info_dict.keys():
+        info_dict[k].sort()
+
+    answer = []
+    for q in query:
+        q = [s for s in q.split(' ') if s not in ['and', '-']]
+        k, v = ''.join(q[:-1]), int(q[-1])
+        if k in list(info_dict.keys()):
+            answer.append(len(info_dict[k])-bisect_left(info_dict[k], v))
+        else:
+            answer.append(0)
+
     return answer
 
 
