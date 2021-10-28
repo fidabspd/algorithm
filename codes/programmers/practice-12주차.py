@@ -10,7 +10,7 @@ def solution(k, dungeons):
         for m, p in per:
             if k_c == 0:
                 break
-            if m > k or p > k_c:
+            if m > k_c or p > k_c:
                 continue
             k_c -= p
             answer_tmp += 1
