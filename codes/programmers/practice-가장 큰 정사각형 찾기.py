@@ -1,5 +1,13 @@
-board1 = [[0,1,1,1],[1,1,1,1],[1,1,1,1],[0,0,1,0]]  # 9
-board2 = [[0,0,1,1],[1,1,1,1]]  # 4
+board1 = [
+    [0,1,1,1],
+    [1,1,1,1],
+    [1,1,1,1],
+    [0,0,1,0]
+]  # 9
+board2 = [
+    [0,0,1,1],
+    [1,1,1,1]
+]  # 4
 
 
 def solution_0(board):
@@ -26,7 +34,7 @@ def solution_0(board):
 
 
 import numpy as np
-def solution(board):
+def solution_1(board):
     board = np.array(board)
     size_max = min(board.shape)
     for size in range(size_max, 0, -1):
@@ -36,6 +44,44 @@ def solution(board):
                     return size**2
     return 0
 
+
+def solution_2(board):
+    answer = 0
+    for i in range(len(board)):
+        for j in range(len(board[0])):
+            print('\n', i, j, sep='')
+            if board[i][j] == 0:
+                continue
+            answer_tmp = 1
+            for l in range(1, min(len(board), len(board[0]))+1):
+                if l+i > len(board) or l+j > len(board[0]):
+                    break
+                print(l)
+                sq = 0
+                for r in range(l):
+                    print(board[i+r][j:j+l])
+                    sq += sum(board[i+r][j:j+l])
+                if sq != l**2:
+                    print('break')
+                    break
+                answer_tmp = sq
+            if answer_tmp > answer:
+                answer = answer_tmp
+    return answer
+
+
+def solution(board):
+    answer = 0
+    for i in range(1, len(board)):
+        for j in range(1, len(board[0])):
+            if board[i][j] == 0:
+                continue
+            board[i][j] += min(board[i-1][j-1], board[i-1][j], board[i][j-1])
+            if board[i][j] > answer:
+                answer = board[i][j]
+    if answer == 0:
+        answer = max([max(b) for b in board])
+    return answer**2
 
 print(solution(board1))
 print(solution(board2))
