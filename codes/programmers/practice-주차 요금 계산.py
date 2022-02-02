@@ -67,6 +67,6 @@ def solution(fees, records):
     
 
 
-# print(solution(fees1, records1))
+print(solution(fees1, records1))
 print(solution(fees2, records2))
-# print(solution(fees3, records3))
+print(solution(fees3, records3))
