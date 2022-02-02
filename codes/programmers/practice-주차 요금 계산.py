@@ -22,27 +22,51 @@ fees3 = [1, 461, 1, 10]
 records3 = ["00:00 1234 IN"]  # [14841]
 
 
+import math
+
+def hm_to_t(hm):
+    h, m = hm.split(':')
+    t = int(h)*60 + int(m)
+    return t
+
 def solution(fees, records):
-    from collections import deque
     base_time, base_rate, unit_time, unit_rate = fees
     ins = {}
     res = {}
+    records.append('23:59 END OUT')
     for record in records:
         t, n, s = record.split(' ')
-        h, m = t.split(':')
-        t = int(h)*60 + int(m)
+        t = hm_to_t(t)
         if s == 'IN':
             ins[n] = t
         else:
-            if n in res.keys():
-                res[n] += t-ins[n]
+            if n == 'END':
+                for n_ in ins.keys():
+                    if ins[n_] is not None:
+                        if n_ in res.keys():
+                            res[n_] += t-ins[n_]
+                        else:
+                            res[n_] = t-ins[n_]  
             else:
-                res[n] = t-ins[n]
-            ins[n] = None
-    print(res)
-    print(ins)
+                if n in res.keys():
+                    res[n] += t-ins[n]
+                else:
+                    res[n] = t-ins[n]
+                ins[n] = None
+
+    result = []
+    for n in sorted(res.keys()):
+        fee = res[n]-base_time
+        if fee > 0:
+            fee = math.ceil(fee/unit_time) * unit_rate + base_rate
+        else:
+            fee = base_rate
+        result.append(fee)
+
+    return result
+    
 
 
-print(solution(fees1, records1))
+# print(solution(fees1, records1))
 print(solution(fees2, records2))
-print(solution(fees3, records3))
+# print(solution(fees3, records3))
