@@ -4,26 +4,27 @@ n3 = 7; wires3 = [[1,2],[2,7],[3,7],[3,4],[4,5],[6,7]]  # 1
 
 
 def solution(n, wires):
-    min_diff = len(wires)
-    for d in range(len(wires)):
-        wires_del = wires[:d] + wires[d+1:]
-        connection1 = wires_del[0].copy()
-        connection2 = []
-        for i, j in wires_del[1:]:
-            if i in connection1 or j in connection1:
-                if i in connection1 and j not in connection1:
-                    connection1.append(j)
-                elif j in connection1 and i not in connection1:
-                    connection1.append(i)
-            else:
-                if not connection2:
-                    connection2 = [i, j]
-                elif i in connection2 and j not in connection2:
-                    connection2.append(j)
-                elif j in connection2 and i not in connection2:
-                    connection2.append(i)
-        diff = abs(len(connection1) - len(connection2))
-        if min_diff > diff:
+    from collections import deque
+    min_diff = n
+    for j in range(len(wires)):
+        del_wires = wires.copy()
+        d = del_wires[j].copy()
+        del del_wires[j]
+        
+        queue = deque([d[0]])
+        visited = [False for _ in range(len(del_wires))]
+        l = 1
+        while queue:
+            now = queue.popleft()
+            for i in range(len(del_wires)):
+                if now in del_wires[i] and not visited[i]:
+                    visited[i] = True
+                    for w in del_wires[i]:
+                        if w != now:
+                            queue.append(w)
+                            l += 1
+        diff = abs((n - l) - l)
+        if diff < min_diff:
             min_diff = diff
     return min_diff
 
