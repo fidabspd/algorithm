@@ -93,4 +93,26 @@ def solution3(n, vertex):
     return dists.count(max(dists))
 
 
-print(solution3(n, vertex))
+def solution(n, vertex):
+    from collections import deque
+    graph = {i: [] for i in range(1, n+1)}
+    for s, e in vertex:
+        graph[s].append(e)
+        graph[e].append(s)
+
+    dist = [0 for _ in range(n)]    
+
+    q = deque([1])
+    d = 0
+    while q:
+        now = q.popleft()
+        for node in graph[now]:
+            if dist[node-1] != 0 or node == 1:
+                continue
+            q.append(node)
+            dist[node-1] = dist[now-1]+1
+
+    return dist.count(max(dist))
+
+
+print(solution(n, vertex))
