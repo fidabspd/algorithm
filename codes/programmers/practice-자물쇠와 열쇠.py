@@ -12,11 +12,11 @@ def solution(key, lock):
     
     def move_key(key, i, j):
         if i > 0:
-            key = [[0]*i + k[:n-i] for k in key]
+            key = [[0]*i + k[:n-i] + [0]*(n-m-i) for k in key]
         else:
             key = [k[-i:] + [0]*(n-m-i) for k in key]
         if j > 0:
-            key = [[0]*n]*j + key[:n-j]
+            key = [[0]*n]*j + key[:n-j] + [[0]*n]*(n-m-j)
         else:
             key = key[-j:] + [[0]*n]*(n-m-j)
         return key
@@ -40,3 +40,13 @@ def solution(key, lock):
 
 
 print(solution(key, lock))
+
+key1 = [[0, 0, 0], [1, 0, 0], [0, 1, 1]]
+lock1 = [
+    [1,1,1,1,1],
+    [1,1,1,1,1],
+    [1,1,1,1,1],
+    [0,1,1,1,1],
+    [1,1,0,1,1],
+]
+print(solution(key1, lock1))
