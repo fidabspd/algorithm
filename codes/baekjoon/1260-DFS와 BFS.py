@@ -5,49 +5,40 @@ n3 = 1000; m3 = 1; v3 = 1000; edge_info3 = [[999, 1000]]
 
 from collections import deque
 
-def make_graph(edge_info):
-    graph = {}
-    for n1, n2 in edge_info:
-        if n1 not in graph.keys():
-            graph[n1] = [n2]
-        elif n2 not in graph[n1]:
-            graph[n1].append(n2)
-        if n2 not in graph.keys():
-            graph[n2] = [n1]
-        elif n1 not in graph[n2]:
-            graph[n2].append(n1)
+def get_graph(n, edges):
+    graph = {i+1: [] for i in range(n)}
+    for s, e in edges:
+        graph[s].append(e)
+        graph[e].append(s)
     return graph
 
 def dfs(graph, v):
     visited = []
     stack = [v]
-
     while stack:
-        n = stack.pop()
-        if n not in visited:
-            visited.append(n)
-            if n in graph:
-                tmp = list(set(graph[n]) - set(visited))
-                tmp.sort(reverse=True)  # stack이기 때문에 처음이 마지막으로 오도록.
-                stack += tmp
+        now = stack.pop()
+        if now in visited:
+            continue
+        visited.append(now)
+        stack.extend(sorted(graph[now], reverse=True))
     return visited
 
 def bfs(graph, v):
+    from collections import deque
+
     visited = []
     queue = deque([v])
-    
     while queue:
-        n = queue.popleft()
-        if n not in visited:
-            visited.append(n)
-            if n in graph.keys():
-                tmp = list(set(graph[n]) - set(visited))
-                tmp.sort()
-                queue += tmp
+        now = queue.popleft()
+        if now in visited:
+            continue
+        visited.append(now)
+        queue.extend(sorted(graph[now]))
+
     return visited
 
-def solution(n, m, v, edge_info):
-    graph = make_graph(edge_info)
+def solution(n, m, v, edges):
+    graph = get_graph(n, edges)
     return dfs(graph, v), bfs(graph, v)
 
 
