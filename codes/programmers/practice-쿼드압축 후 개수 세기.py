@@ -1,36 +1,51 @@
-arr1 = [[1,1,0,0],[1,0,0,0],[1,0,0,1],[1,1,1,1]]  # [4,9]
-arr2 = [[1,1,1,1,1,1,1,1],[0,1,1,1,1,1,1,1],[0,0,0,0,1,1,1,1],[0,1,0,0,1,1,1,1],
-        [0,0,0,0,0,0,1,1],[0,0,0,0,0,0,0,1],[0,0,0,0,1,0,0,1],[0,0,0,0,1,1,1,1]]  # [10,15]
+arr0 = [
+    [1, 1, 0, 0],
+    [1, 0, 0, 0],
+    [1, 0, 0, 1],
+    [1, 1, 1, 1],
+]  # [4, 9]
+arr1 = [
+    [1, 1, 1, 1, 1, 1, 1, 1],
+    [0, 1, 1, 1, 1, 1, 1, 1],
+    [0, 0, 0, 0, 1, 1, 1, 1],
+    [0, 1, 0, 0, 1, 1, 1, 1],
+    [0, 0, 0, 0, 0, 0, 1, 1],
+    [0, 0, 0, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 1, 0, 0, 1],
+    [0, 0, 0, 0, 1, 1, 1, 1],
+]  # [10, 15]
 
 
-import numpy as np
 def solution(arr):
+    def check_arr(sr, er, sc, ec):
+        _sum = 0
+        for a in arr[sr:er]:
+            _sum += sum(a[sc:ec])
+        dim = er - sr
+        if _sum == dim * dim:
+            return 1
+        elif _sum == 0:
+            return 0
+        else:
+            return None
+
     answer = [0, 0]
-    for a in arr:
-        answer[0] += a.count(0)
-        answer[1] += a.count(1)
-
-    quad_loc = np.array([[0]*len(arr)]*len(arr))
-    arr = np.array(arr)
-    now_len = len(arr)
-    while now_len > 1:
-        for i in range(len(arr)//now_len):
-            for j in range(len(arr)//now_len):
-                i_s, i_e, j_s, j_e = i*now_len, (i+1)*now_len, j*now_len, (j+1)*now_len
-                if sum(sum(quad_loc[i_s:i_e, j_s:j_e])) != 0:
-                    continue
-                arr_tmp = arr[i_s:i_e, j_s:j_e]
-                arr_tmp_sum = sum(sum(arr_tmp))
-                if arr_tmp_sum == now_len**2:
-                    quad_loc[i_s:i_e, j_s:j_e] = 1
-                    answer[1] -= now_len**2-1
-                elif arr_tmp_sum == 0:
-                    quad_loc[i_s:i_e, j_s:j_e] = 1
-                    answer[0] -= now_len**2-1
-        now_len //= 2
-
+    arr_len = len(arr)
+    stack = [[0, arr_len, 0, arr_len]]
+    while stack:
+        sr, er, sc, ec = stack.pop()
+        checked = check_arr(sr, er, sc, ec)
+        if checked is None:
+            stack.append([sr, (sr + er) // 2, sc, (sc + ec) // 2])
+            stack.append([(sr + er) // 2, er, sc, (sc + ec) // 2])
+            stack.append([sr, (sr + er) // 2, (sc + ec) // 2, ec])
+            stack.append([(sr + er) // 2, er, (sc + ec) // 2, ec])
+        elif checked == 0:
+            answer[0] += 1
+        elif checked == 1:
+            answer[1] += 1
     return answer
 
 
+print(solution(arr0))
 print(solution(arr1))
-print(solution(arr2))
